@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ur_modern_driver)
-
+project(test_ros2)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
@@ -14,17 +13,14 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(Boost REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(trajectory_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(ur_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
 
-add_executable((ur_driver src/ur_driver.cpp)
-ament_target_dependencies((ur_driver trajectory_msgs std_msgs sensor_msgs ur_msgs geometry_msgs )
+add_executable(test_ros2 src/test_ros2.cpp)
+ament_target_dependencies(test_ros2 std_msgs sensor_msgs )
 
 install(TARGETS
-  ur_driver
+  test_ros2
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
