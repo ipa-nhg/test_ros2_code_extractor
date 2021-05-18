@@ -1,0 +1,29 @@
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+def generate_launch_description():
+  ld = LaunchDescription()
+
+  base_driver = Node(
+    package="ridgeback",
+    executable="base_driver"
+  )
+  scan_driver = Node(
+    package="hokuyo_node",
+    executable="hokuyo_node"
+  )
+  move_base = Node(
+    package="move_base",
+    executable="move_base"
+  )
+  navigation = Node(
+    package="navigation",
+    executable="navigation"
+  )
+
+  ld.add_action(base_driver)
+  ld.add_action(scan_driver)
+  ld.add_action(move_base)
+  ld.add_action(navigation)
+
+  return ld

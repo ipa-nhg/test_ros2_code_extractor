@@ -1,0 +1,32 @@
+RosSystem { Name 'move_base_experiment' 
+RosComponents ( 
+    ComponentInterface { name base_driver  FromRosNode "ridgeback.base_driver.base_driver"
+        RosPublishers{
+            RosPublisher 'joint_states' { RefPublisher "ridgeback.base_driver.base_driver.joint_states"},
+            RosPublisher odometry { RefPublisher "ridgeback.base_driver.base_driver.odometry"} , RosPublisher sondar_scan { RefPublisher "ridgeback.base_driver.base_driver.sondar_scan" } } RosSubscribers {
+            RosSubscriber vel_command { RefSubscriber "ridgeback.base_driver.base_driver.cmd_vel"}}},
+    ComponentInterface { name scan_driver FromRosNode "hokuyo_node.hokuyo_node.hokuyo_node"
+        RosPublishers{
+            RosPublisher 'scan' { RefPublisher 'hokuyo_node.hokuyo_node.hokuyo_node.scan'},
+            RosPublisher 'diagnostics' { RefPublisher 'hokuyo_node.hokuyo_node.hokuyo_node.diagnostics'} , RosPublisher "hokuyo/parameter_descriptions" { RefPublisher "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/parameter_descriptions" } , RosPublisher "hokuyo/parameter_updates" { RefPublisher "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/parameter_updates" } } RosSrvClients { RosServiceClient "hokuyo/set_parameters" { RefClient "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/set_parameters" } , RosServiceClient "hokuyo/self_test" { RefClient "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/self_test" } } } , 
+    ComponentInterface { name move_base FromRosNode "move_base.move_base.move_base" 
+    	RosPublishers { 
+    		RosPublisher cmd_vel { RefPublisher "move_base.move_base.move_base.cmd_vel" }}
+    	RosSubscribers { 
+    		RosSubscriber nav_goal { RefSubscriber "move_base.move_base.move_base.move_base/goal" }}} ,
+    ComponentInterface { name  navigation FromRosNode "navigation.navigation.navigation"
+    	RosPublishers { 
+    		RosPublisher nav_goal { RefPublisher "navigation.navigation.navigation.move_base/goal" }}
+    	RosSubscribers { 
+    		RosSubscriber scan { RefSubscriber "navigation.navigation.navigation.scan" } , 
+    		RosSubscriber odometry { RefSubscriber "navigation.navigation.navigation.odometry" } , 
+    		 RosSubscriber joint_states { RefSubscriber "navigation.navigation.navigation.joint_states" } , 
+    		RosSubscriber map { RefSubscriber "navigation.navigation.navigation.map" }
+    	, RosSubscriber imu { RefSubscriber "navigation.navigation.navigation.imu" } } } )
+    TopicConnections { 
+		TopicConnection scan { From ( "scan_driver.scan" ) To ( "navigation.scan" ) } , 
+		TopicConnection odometry { From ( "base_driver.odometry" ) To ( "navigation.odometry" ) } , 
+		TopicConnection joint_states { From ( "base_driver.joint_states" ) To ( "navigation.joint_states" ) } , 
+		TopicConnection nav_goal { From ( "navigation.nav_goal" ) To ( "move_base.nav_goal" ) } , 
+		TopicConnection vel_command { From ( "move_base.cmd_vel" ) To ( "base_driver.vel_command" ) }
+    }} 
