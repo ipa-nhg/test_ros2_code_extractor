@@ -6,19 +6,24 @@ def generate_launch_description():
 
   base_driver = Node(
     package="ridgeback",
-    executable="base_driver"
+    executable="base_driver",
+    name="base_driver"
   )
   scan_driver = Node(
     package="hokuyo_node",
-    executable="hokuyo_node"
+    executable="hokuyo_node",
+    name="scan_driver",
+    namespace="front"
   )
   move_base = Node(
     package="move_base",
-    executable="move_base"
+    executable="move_base",
+    name="move_base"
   )
   navigation = Node(
     package="navigation",
-    executable="navigation"
+    executable="navigation",
+    name="navigation"
   )
 
   ld.add_action(base_driver)

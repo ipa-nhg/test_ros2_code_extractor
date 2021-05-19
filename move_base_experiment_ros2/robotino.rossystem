@@ -5,7 +5,7 @@ RosComponents (
             RosPublisher 'joint_states' { RefPublisher "ridgeback.base_driver.base_driver.joint_states"},
             RosPublisher odometry { RefPublisher "ridgeback.base_driver.base_driver.odometry"} , RosPublisher sondar_scan { RefPublisher "ridgeback.base_driver.base_driver.sondar_scan" } } RosSubscribers {
             RosSubscriber vel_command { RefSubscriber "ridgeback.base_driver.base_driver.cmd_vel"}}},
-    ComponentInterface { name scan_driver FromRosNode "hokuyo_node.hokuyo_node.hokuyo_node"
+    ComponentInterface { name scan_driver NameSpace "front" FromRosNode "hokuyo_node.hokuyo_node.hokuyo_node" 
         RosPublishers{
             RosPublisher 'scan' { RefPublisher 'hokuyo_node.hokuyo_node.hokuyo_node.scan'},
             RosPublisher 'diagnostics' { RefPublisher 'hokuyo_node.hokuyo_node.hokuyo_node.diagnostics'} , RosPublisher "hokuyo/parameter_descriptions" { RefPublisher "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/parameter_descriptions" } , RosPublisher "hokuyo/parameter_updates" { RefPublisher "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/parameter_updates" } } RosSrvClients { RosServiceClient "hokuyo/set_parameters" { RefClient "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/set_parameters" } , RosServiceClient "hokuyo/self_test" { RefClient "hokuyo_node.hokuyo_node.hokuyo_node.hokuyo/self_test" } } } , 
