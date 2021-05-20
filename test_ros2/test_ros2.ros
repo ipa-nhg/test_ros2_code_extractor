@@ -1,11 +1,12 @@
-PackageSet { 
-	CatkinPackage test_ros2{ Artifact  test_ros2 {
-	  Node { name test_ros2 
-		Publishers {
-			Publisher { name string_pub message "std_msgs.String"},
-			Publisher { name battery_pub message "sensor_msgs.BatteryState"}}
-		Subscribers {
-			Subscriber {name bool_sub message "std_msgs.Bool"},
-			Subscriber {name image_sub message "sensor_msgs.Image"}}
-		}
-	}}}
+PackageSet {
+	CatkinPackage test_pkg {
+		Artifact test_node { Node { name test_node
+			Publishers { 
+				Publisher { name scan message "sensor_msgs.LaserScan" }}
+			Subscribers {
+				Subscriber { name power_state message "sensor_msgs.BatteryState"}}
+			ServiceClients {
+				ServiceClient { name init service "std_srvs.Trigger"}}
+			ServiceServers {
+				ServiceServer {name setBool service "std_srvs.SetBool"}}
+}}}}
