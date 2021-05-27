@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(test_ros2)
+project(test_pkg)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
@@ -16,11 +16,11 @@ find_package(rclcpp REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_executable(test_ros2 src/test_ros2.cpp)
-ament_target_dependencies(test_ros2 std_srvs sensor_msgs )
+add_executable(test_node src/test_node.cpp)
+ament_target_dependencies(test_node std_srvs sensor_msgs )
 
 install(TARGETS
-  test_ros2
+  test_node
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

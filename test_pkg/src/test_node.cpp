@@ -18,21 +18,21 @@ using std::placeholders::_3;
 
 void print_usage()
 {
-  printf("Usage for test_ros2 app:\n");
+  printf("Usage for test_node app:\n");
   printf("..... \n");
   printf("..... \n");
   printf("..... \n");
 }
 
-  class test_ros2 : public rclcpp::Node {
+  class test_node : public rclcpp::Node {
     public:
-      test_ros2() : Node("test_ros2") {
+      test_node() : Node("test_node") {
         scan_ = this->create_publisher<sensor_msgs::msg::LaserScan>("scan",10);
-        power_state_ = this->create_subscription<sensor_msgs::msg::BatteryState>("power_state", 10, std::bind(&test_ros2::power_state_callback, this, _1));
+        power_state_ = this->create_subscription<sensor_msgs::msg::BatteryState>("power_state", 10, std::bind(&test_node::power_state_callback, this, _1));
         init_ = this->create_client<std_srvs::srv::Trigger>("init");
-        setBool_ = this->create_service<std_srvs::srv::SetBool>("setBool", std::bind(&test_ros2::setBool_handle, this, _1, _2, _3));
+        setBool_ = this->create_service<std_srvs::srv::SetBool>("setBool", std::bind(&test_node::setBool_handle, this, _1, _2, _3));
 
-        timer_ = this->create_wall_timer(500ms, std::bind(&test_ros2::timer_callback, this));
+        timer_ = this->create_wall_timer(500ms, std::bind(&test_node::timer_callback, this));
 
       	// Service client
         while (!init_->wait_for_service(std::chrono::seconds(10))){
@@ -77,7 +77,7 @@ void print_usage()
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<test_ros2>());
+  rclcpp::spin(std::make_shared<test_node>());
   rclcpp::shutdown();
   return 0;
 }
