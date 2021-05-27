@@ -1,26 +1,23 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.0.2)
 project(test_pkg)
 
-# Default to C++14
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
-endif()
+find_package(catkin REQUIRED COMPONENTS roscpp std_srvs sensor_msgs )
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+catkin_package(
+  CATKIN_DEPENDS roscpp std_srvs sensor_msgs 
+)
 
-find_package(ament_cmake REQUIRED)
-find_package(Boost REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(std_srvs REQUIRED)
-find_package(sensor_msgs REQUIRED)
+### Build ###
+
+include_directories(${catkin_INCLUDE_DIRS})
 
 add_executable(test_node src/test_node.cpp)
-ament_target_dependencies(test_node std_srvs sensor_msgs )
+add_dependencies(test_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(test_node ${catkin_LIBRARIES})
 
-install(TARGETS
-  test_node
-  DESTINATION lib/${PROJECT_NAME})
-
-ament_package()
+### Install ###
+install(TARGETS test_node
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
