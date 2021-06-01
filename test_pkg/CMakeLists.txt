@@ -17,7 +17,7 @@ find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 add_executable(test_node src/test_node.cpp)
-ament_target_dependencies(test_node std_srvs sensor_msgs )
+ament_target_dependencies(test_node rclcpp std_srvs sensor_msgs )
 
 install(TARGETS
   test_node
